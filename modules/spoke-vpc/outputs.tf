@@ -3,9 +3,12 @@ output "vpc_id" {
 
 
 }
-output "subnet_id" {
-  value = aws_subnet.this.id
+output "subnet_id_a" {
+  value = aws_subnet.a.id
+}
 
+output "subnet_id_b" {
+  value = aws_subnet.b.id
 }
 
 output "attachment_id" {
