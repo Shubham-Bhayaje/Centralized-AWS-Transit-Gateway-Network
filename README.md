@@ -3,6 +3,8 @@
 ## Overview
 This repository contains a Terraform-based implementation of a centralized hub-and-spoke AWS network architecture. The design is modeled on AWS best practices for multi-VPC infrastructure, featuring centralized inbound and outbound traffic inspection utilizing AWS Transit Gateway and AWS Network Firewall.
 
+![Centralized AWS Transit Gateway Network Architecture](architecture/centralized-tgw-architecture.png)
+
 ## Architecture Highlights
 - **Transit Gateway (TGW):** Serves as the central routing hub connecting all Virtual Private Clouds (VPCs).
 - **Inspection VPC:** Contains AWS Network Firewall for centralized traffic inspection.
