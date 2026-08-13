@@ -56,7 +56,7 @@ resource "aws_networkfirewall_rule_group" "allow_all" {
       stateful_rule {
         action = "PASS"
         header {
-          protocol         = "IP"
+          protocol         = "TCP"
           source           = "ANY"
           source_port      = "ANY"
           destination      = "ANY"
@@ -65,6 +65,34 @@ resource "aws_networkfirewall_rule_group" "allow_all" {
         }
         rule_option {
           keyword = "sid:1"
+        }
+      }
+      stateful_rule {
+        action = "PASS"
+        header {
+          protocol         = "UDP"
+          source           = "ANY"
+          source_port      = "ANY"
+          destination      = "ANY"
+          destination_port = "ANY"
+          direction        = "ANY"
+        }
+        rule_option {
+          keyword = "sid:2"
+        }
+      }
+      stateful_rule {
+        action = "DROP"
+        header {
+          protocol         = "ICMP"
+          source           = "ANY"
+          source_port      = "ANY"
+          destination      = "ANY"
+          destination_port = "ANY"
+          direction        = "ANY"
+        }
+        rule_option {
+          keyword = "sid:3"
         }
       }
     }
@@ -102,9 +130,10 @@ resource "aws_networkfirewall_firewall" "this" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
-  transit_gateway_id = var.tgw_id
-  vpc_id             = aws_vpc.this.id
-  subnet_ids         = [aws_subnet.tgw_a.id, aws_subnet.tgw_b.id]
+  transit_gateway_id     = var.tgw_id
+  vpc_id                 = aws_vpc.this.id
+  subnet_ids             = [aws_subnet.tgw_a.id, aws_subnet.tgw_b.id]
+  appliance_mode_support = "enable"
   tags = {
     Name = "${var.project_name}-inspection-attachment"
   }

@@ -164,6 +164,19 @@ resource "aws_route" "public_b_default" {
   gateway_id             = aws_internet_gateway.this.id
 }
 
+# Return routes for internal traffic (spoke CIDRs) back through TGW
+resource "aws_route" "public_a_internal" {
+  route_table_id         = aws_route_table.public_a.id
+  destination_cidr_block = "10.0.0.0/8"
+  transit_gateway_id     = var.tgw_id
+}
+
+resource "aws_route" "public_b_internal" {
+  route_table_id         = aws_route_table.public_b.id
+  destination_cidr_block = "10.0.0.0/8"
+  transit_gateway_id     = var.tgw_id
+}
+
 resource "aws_route" "tgw_a_to_nat" {
   route_table_id         = aws_route_table.tgw_subnet_a.id
   destination_cidr_block = "0.0.0.0/0"

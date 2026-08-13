@@ -52,3 +52,10 @@ variable "tgw_route_table_id" {
   type        = string
 
 }
+
+variable "instance_type" {
+  description = "EC2 instance type for the spoke workload instance"
+  type        = string
+  default     = "t3.micro"
+}
+
